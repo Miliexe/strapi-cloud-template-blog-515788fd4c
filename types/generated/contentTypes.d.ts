@@ -512,6 +512,8 @@ export interface PluginContentReleasesRelease extends Schema.CollectionType {
   attributes: {
     name: Attribute.String & Attribute.Required;
     releasedAt: Attribute.DateTime;
+    scheduledAt: Attribute.DateTime;
+    timezone: Attribute.String;
     actions: Attribute.Relation<
       'plugin::content-releases.release',
       'oneToMany',
@@ -938,6 +940,38 @@ export interface ApiCategoryCategory extends Schema.CollectionType {
   };
 }
 
+export interface ApiCollapseCollapse extends Schema.CollectionType {
+  collectionName: 'collapses';
+  info: {
+    singularName: 'collapse';
+    pluralName: 'collapses';
+    displayName: 'collapse';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    title: Attribute.String;
+    content: Attribute.String;
+    uid: Attribute.UID;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::collapse.collapse',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::collapse.collapse',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiGlobalGlobal extends Schema.SingleType {
   collectionName: 'globals';
   info: {
@@ -993,6 +1027,7 @@ declare module '@strapi/types' {
       'api::article.article': ApiArticleArticle;
       'api::author.author': ApiAuthorAuthor;
       'api::category.category': ApiCategoryCategory;
+      'api::collapse.collapse': ApiCollapseCollapse;
       'api::global.global': ApiGlobalGlobal;
     }
   }
